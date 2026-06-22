@@ -160,6 +160,12 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					8087564671C9AAA59AFE184C = {
+						DevelopmentTeam = 4QBTGP2M6U;
+					};
+					D68F1C5CB36D3FC8D3B1334B = {
+						DevelopmentTeam = 4QBTGP2M6U;
+					};
 				};
 			};
 			buildConfigurationList = 7A74ADD84B1711E671185531 /* Build configuration list for PBXProject "TrainingLog" */;
@@ -327,6 +333,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 4QBTGP2M6U;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -404,6 +411,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4QBTGP2M6U;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
