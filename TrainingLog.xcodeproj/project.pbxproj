@@ -11,6 +11,8 @@
 		1263CD6251EEB6706428581C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED1D80DDB46D50B4C9A47CFF /* Assets.xcassets */; };
 		12A1BF0120449BA9290D5FD5 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B3DB42624806ADFB9F3CC6 /* Exercise.swift */; };
 		1DA859D9DE64402A7282D575 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */; };
+		31BBC19C2ED0A916F82D515B /* TrainingLogMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7949BB386436C56E804E4863 /* TrainingLogMigrationPlan.swift */; };
+		45F530F535107073079CE21E /* MigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF04C3619142063953878706 /* MigrationTests.swift */; };
 		4C254994734E28E0C1A4FC09 /* TrainingLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A62054E02C08DAE6F0583 /* TrainingLogApp.swift */; };
 		76E807CF027B364BCF1F012C /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19261F5854EE78458735178A /* StoreTests.swift */; };
 		79DBC3BFA79EC5B2D93C8E06 /* EditDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9631828831893F3212B577E3 /* EditDayView.swift */; };
@@ -33,14 +35,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06A1D6E0E4B15DCC7E44005F /* TrainingLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainingLog.entitlements; sourceTree = "<group>"; };
 		06DCEF2EDDDF77761A5D7AA9 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		19261F5854EE78458735178A /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		35B3DB42624806ADFB9F3CC6 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		3E643EF527209F1FD986949C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4556761F1F6509848E5EC3C4 /* MonthGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridTests.swift; sourceTree = "<group>"; };
 		70C5A355F66E9E0BB6F51FCB /* TrainingLogTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TrainingLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		713A62054E02C08DAE6F0583 /* TrainingLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLogApp.swift; sourceTree = "<group>"; };
+		7949BB386436C56E804E4863 /* TrainingLogMigrationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLogMigrationPlan.swift; sourceTree = "<group>"; };
 		9631828831893F3212B577E3 /* EditDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDayView.swift; sourceTree = "<group>"; };
 		AD43964E531596AD42B0886A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BF04C3619142063953878706 /* MigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationTests.swift; sourceTree = "<group>"; };
 		CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGrid.swift; sourceTree = "<group>"; };
 		D3BA38B207C95E0A3A548830 /* WorkoutEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEntry.swift; sourceTree = "<group>"; };
 		D7806FBA6E2DD1F5886E2460 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
@@ -54,6 +60,7 @@
 		21C7E2B79D8687155BA00204 /* TrainingLogTests */ = {
 			isa = PBXGroup;
 			children = (
+				BF04C3619142063953878706 /* MigrationTests.swift */,
 				FBDBBDF56854A96E9C65B89D /* ModelTests.swift */,
 				4556761F1F6509848E5EC3C4 /* MonthGridTests.swift */,
 				19261F5854EE78458735178A /* StoreTests.swift */,
@@ -66,6 +73,7 @@
 			children = (
 				35B3DB42624806ADFB9F3CC6 /* Exercise.swift */,
 				CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */,
+				7949BB386436C56E804E4863 /* TrainingLogMigrationPlan.swift */,
 				D3BA38B207C95E0A3A548830 /* WorkoutEntry.swift */,
 			);
 			path = Models;
@@ -86,7 +94,9 @@
 			isa = PBXGroup;
 			children = (
 				ED1D80DDB46D50B4C9A47CFF /* Assets.xcassets */,
+				3E643EF527209F1FD986949C /* Info.plist */,
 				EBFDEF9452D0AC8413D31E8E /* Theme.swift */,
+				06A1D6E0E4B15DCC7E44005F /* TrainingLog.entitlements */,
 				713A62054E02C08DAE6F0583 /* TrainingLogApp.swift */,
 				668AEAD8534F2E39AA8EC826 /* Models */,
 				7015C2C6AB05B4DCBC4B9ACA /* Views */,
@@ -204,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45F530F535107073079CE21E /* MigrationTests.swift in Sources */,
 				94D1C0F83BC9B5625D3F6996 /* ModelTests.swift in Sources */,
 				0403EC51E1A2AE4D4C844999 /* MonthGridTests.swift in Sources */,
 				76E807CF027B364BCF1F012C /* StoreTests.swift in Sources */,
@@ -222,6 +233,7 @@
 				1DA859D9DE64402A7282D575 /* MonthGrid.swift in Sources */,
 				A7C1A06A5EDB0883D5F6E36F /* Theme.swift in Sources */,
 				4C254994734E28E0C1A4FC09 /* TrainingLogApp.swift in Sources */,
+				31BBC19C2ED0A916F82D515B /* TrainingLogMigrationPlan.swift in Sources */,
 				FA850287216ECA9F2D4CF419 /* WorkoutEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,10 +254,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrainingLog/TrainingLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = "Training Log";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TrainingLog/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -263,10 +275,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrainingLog/TrainingLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = "Training Log";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TrainingLog/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
