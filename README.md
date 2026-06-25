@@ -59,6 +59,7 @@ TrainingLog/
     FingerEntry.swift      A logged grip (protocol, grip, weight) + grip/protocol enums
     Exercise.swift         The strength exercise catalog
     MonthGrid.swift        Turns a month into a grid of day cells
+    Ordering.swift         Per-day reorder/delete position bookkeeping, shared by both entry types
   Views/
     ContentView.swift      Calendar on top, selected-day detail below
     CalendarView.swift     The month calendar with day dots

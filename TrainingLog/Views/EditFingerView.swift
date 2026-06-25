@@ -171,7 +171,11 @@ struct EditFingerView: View {
                 position: index
             ))
         }
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("Failed to save finger entries: \(error.localizedDescription, privacy: .public)")
+        }
         dismiss()
     }
 }
