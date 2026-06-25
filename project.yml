@@ -19,27 +19,13 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: TrainingLog
-    # An explicit Info.plist (generation disabled below) so UIBackgroundModes can
-    # be declared — remote notifications let CloudKit push store changes to the
-    # app while it's backgrounded. XcodeGen fills in the standard CFBundle* keys.
-    info:
-      path: TrainingLog/Info.plist
-      properties:
-        CFBundleDisplayName: Training Log
-        UILaunchScreen: {}
-        UISupportedInterfaceOrientations:
-          - UIInterfaceOrientationPortrait
-        UIBackgroundModes:
-          - remote-notification
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.qinfan.TrainingLog
         PRODUCT_NAME: TrainingLog
-        # Entitlements declare the iCloud/CloudKit container used for SwiftData sync.
-        CODE_SIGN_ENTITLEMENTS: TrainingLog/TrainingLog.entitlements
-        # Use the explicit Info.plist above instead of a generated one; the two
-        # conflict if both are active.
-        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_KEY_CFBundleDisplayName: "Training Log"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         TARGETED_DEVICE_FAMILY: "1,2"
