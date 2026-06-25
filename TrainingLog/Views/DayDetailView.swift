@@ -4,42 +4,22 @@ import SwiftUI
 /// Strength section and a Finger Training section. Each is edited independently via its
 /// own button in the section header.
 struct DayDetailView: View {
-    let date: Date
     let entries: [WorkoutEntry]
     let fingerEntries: [FingerEntry]
     let onEditStrength: () -> Void
     let onEditFingers: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            dateHeader
-                .padding(.horizontal)
-                .padding(.top, 18)
-
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 12) {
-                    strengthSection
-                    fingerSection
-                }
-                .padding(.horizontal)
-                .padding(.top, 16)
-                .padding(.bottom, 24)
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                strengthSection
+                fingerSection
             }
+            .padding(.horizontal)
+            .padding(.top, 16)
+            .padding(.bottom, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-    }
-
-    // MARK: - Date header
-
-    private var dateHeader: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(date.formatted(.dateTime.weekday(.wide)))
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Text(date.formatted(.dateTime.month(.wide).day().year()))
-                .font(.title3.weight(.semibold))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Strength

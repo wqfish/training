@@ -47,7 +47,6 @@ struct ContentView: View {
                 .padding(.top, 8)
 
                 DayDetailView(
-                    date: selectedDate,
                     entries: entriesForSelectedDate,
                     fingerEntries: fingerEntriesForSelectedDate,
                     onEditStrength: { isEditingStrength = true },
