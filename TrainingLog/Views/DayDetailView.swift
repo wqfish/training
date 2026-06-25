@@ -72,7 +72,7 @@ struct DayDetailView: View {
             Spacer()
             weightLabel(entry.weight)
         }
-        .card()
+        .card(horizontal: 16, vertical: 10)
     }
 
     private var strengthFooter: some View {
@@ -119,7 +119,7 @@ struct DayDetailView: View {
             Spacer()
             weightLabel(entry.weight)
         }
-        .card()
+        .card(horizontal: 16, vertical: 10)
     }
 
     private var fingerFooter: some View {
