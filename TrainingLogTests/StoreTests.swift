@@ -127,4 +127,87 @@ struct StoreTests {
 
         #expect(try context.fetch(FetchDescriptor<FingerEntry>()).first?.reps == 5)
     }
+
+    // MARK: - Reorder & delete (mirrors what DayDetailView's row actions do via DayOrdering)
+
+    private func strengthSorted(_ context: ModelContext) throws -> [WorkoutEntry] {
+        try context.fetch(FetchDescriptor<WorkoutEntry>(sortBy: [SortDescriptor(\.position)]))
+    }
+
+    private func fingerSorted(_ context: ModelContext) throws -> [FingerEntry] {
+        try context.fetch(FetchDescriptor<FingerEntry>(sortBy: [SortDescriptor(\.position)]))
+    }
+
+    @Test func reorderingStrengthEntriesPersistsNewOrder() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+
+        context.insert(WorkoutEntry(date: day, exerciseName: "Bench Press", sets: 3, reps: 5, weight: 185, position: 0))
+        context.insert(WorkoutEntry(date: day, exerciseName: "Back Squat", sets: 5, reps: 5, weight: 225, position: 1))
+        context.insert(WorkoutEntry(date: day, exerciseName: "Deadlift", sets: 1, reps: 5, weight: 315, position: 2))
+        try context.save()
+
+        // Drag the last entry to the front.
+        DayOrdering.move(try strengthSorted(context), fromOffsets: IndexSet(integer: 2), toOffset: 0)
+        try context.save()
+
+        let reordered = try strengthSorted(context)
+        #expect(reordered.map(\.exerciseName) == ["Deadlift", "Bench Press", "Back Squat"])
+        #expect(reordered.map(\.position) == [0, 1, 2])
+    }
+
+    @Test func deletingStrengthEntryReindexesSurvivors() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+
+        context.insert(WorkoutEntry(date: day, exerciseName: "Bench Press", sets: 3, reps: 5, weight: 185, position: 0))
+        context.insert(WorkoutEntry(date: day, exerciseName: "Back Squat", sets: 5, reps: 5, weight: 225, position: 1))
+        context.insert(WorkoutEntry(date: day, exerciseName: "Deadlift", sets: 1, reps: 5, weight: 315, position: 2))
+        try context.save()
+
+        // Swipe-delete the middle entry; the survivors must renumber to stay dense.
+        DayOrdering.delete(try strengthSorted(context), at: IndexSet(integer: 1), from: context)
+        try context.save()
+
+        let remaining = try strengthSorted(context)
+        #expect(remaining.map(\.exerciseName) == ["Bench Press", "Deadlift"])
+        #expect(remaining.map(\.position) == [0, 1])
+    }
+
+    @Test func reorderingFingerEntriesPersistsNewOrder() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+        let proto = FingerProtocol.repeaters.rawValue
+
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.halfCrimp.rawValue, weight: 25, position: 0))
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.threeFingerDrag.rawValue, weight: 15, position: 1))
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.openHand.rawValue, weight: 0, position: 2))
+        try context.save()
+
+        // Drag the first grip to the end.
+        DayOrdering.move(try fingerSorted(context), fromOffsets: IndexSet(integer: 0), toOffset: 3)
+        try context.save()
+
+        let reordered = try fingerSorted(context)
+        #expect(reordered.map(\.gripPosition) == [.threeFingerDrag, .openHand, .halfCrimp])
+        #expect(reordered.map(\.position) == [0, 1, 2])
+    }
+
+    @Test func deletingFingerEntryReindexesSurvivors() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+        let proto = FingerProtocol.maxHang.rawValue
+
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.halfCrimp.rawValue, weight: 25, position: 0))
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.threeFingerDrag.rawValue, weight: 15, position: 1))
+        context.insert(FingerEntry(date: day, protocolName: proto, grip: GripPosition.openHand.rawValue, weight: 0, position: 2))
+        try context.save()
+
+        DayOrdering.delete(try fingerSorted(context), at: IndexSet(integer: 0), from: context)
+        try context.save()
+
+        let remaining = try fingerSorted(context)
+        #expect(remaining.map(\.gripPosition) == [.threeFingerDrag, .openHand])
+        #expect(remaining.map(\.position) == [0, 1])
+    }
 }

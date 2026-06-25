@@ -9,18 +9,14 @@ on-device — no account, no network.
 
 ## Features
 
-- **Month calendar** with up to two dots per day — an **orange** dot when
-  strength work was logged and a **teal** dot for finger training — so a day
-  can show one, both, or none at a glance.
-- **Strength logging** from a built-in exercise catalog, tracking sets × reps ×
-  weight. Bodyweight movements (pull-ups, hamstring curls, lock-offs, …) flip a
-  **Uses weight** toggle off and log as "Bodyweight"; the catalog presets that
-  toggle per exercise so it starts in the right position.
-- **Finger-training logging** tagged with a protocol (**Repeaters** or **Max
-  Hang**), recording the added weight for each grip position — half crimp,
-  3-finger drag, and 4-finger open hand. Bodyweight hangs are supported too.
-- Each day splits into independently-editable **Strength** and **Finger
-  Training** sections, with a running volume total for strength.
+- **Month calendar** with at-a-glance dots marking which kinds of training a day
+  holds, so a whole month reads in a glance.
+- **Strength logging** from a built-in exercise catalog, tracking sets, reps, and
+  weight, with bodyweight movements supported and a running volume total per day.
+- **Finger-training logging** tagged by protocol, recording the load for each
+  grip position, with bodyweight hangs supported.
+- Each day splits into independent **Strength** and **Finger Training** sections;
+  within each you can add, edit, reorder, and delete entries.
 
 ## Requirements
 

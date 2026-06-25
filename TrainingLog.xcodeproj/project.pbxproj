@@ -19,6 +19,7 @@
 		926216A50AECD36EFD6C14C1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DCEF2EDDDF77761A5D7AA9 /* CalendarView.swift */; };
 		94D1C0F83BC9B5625D3F6996 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDF56854A96E9C65B89D /* ModelTests.swift */; };
 		A7C1A06A5EDB0883D5F6E36F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFDEF9452D0AC8413D31E8E /* Theme.swift */; };
+		AABF8FB2D98802BD539B17B0 /* Ordering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8B60296E34A5A1304AAA3E /* Ordering.swift */; };
 		CA863886F2647349BF3B9E3F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD43964E531596AD42B0886A /* ContentView.swift */; };
 		ED6344EF102D0E81658E85F6 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7806FBA6E2DD1F5886E2460 /* DayDetailView.swift */; };
 		FA850287216ECA9F2D4CF419 /* WorkoutEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BA38B207C95E0A3A548830 /* WorkoutEntry.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		05891F505D974B637B9B2825 /* FingerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerEntry.swift; sourceTree = "<group>"; };
 		06DCEF2EDDDF77761A5D7AA9 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		0F8B60296E34A5A1304AAA3E /* Ordering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ordering.swift; sourceTree = "<group>"; };
 		19261F5854EE78458735178A /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		35B3DB42624806ADFB9F3CC6 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		4556761F1F6509848E5EC3C4 /* MonthGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridTests.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				35B3DB42624806ADFB9F3CC6 /* Exercise.swift */,
 				05891F505D974B637B9B2825 /* FingerEntry.swift */,
 				CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */,
+				0F8B60296E34A5A1304AAA3E /* Ordering.swift */,
 				D3BA38B207C95E0A3A548830 /* WorkoutEntry.swift */,
 			);
 			path = Models;
@@ -228,6 +231,7 @@
 				12A1BF0120449BA9290D5FD5 /* Exercise.swift in Sources */,
 				2A2D822FFBFDAA43214F42FE /* FingerEntry.swift in Sources */,
 				1DA859D9DE64402A7282D575 /* MonthGrid.swift in Sources */,
+				AABF8FB2D98802BD539B17B0 /* Ordering.swift in Sources */,
 				A7C1A06A5EDB0883D5F6E36F /* Theme.swift in Sources */,
 				4C254994734E28E0C1A4FC09 /* TrainingLogApp.swift in Sources */,
 				FA850287216ECA9F2D4CF419 /* WorkoutEntry.swift in Sources */,

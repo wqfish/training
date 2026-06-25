@@ -8,34 +8,47 @@ struct DayDetailView: View {
     let fingerEntries: [FingerEntry]
     let onEditStrength: () -> Void
     let onEditFingers: () -> Void
+    /// Swipe-to-delete (and edit-mode delete) for the strength list, by row offset.
+    let onDeleteStrength: (IndexSet) -> Void
+    /// Drag-reorder within the strength list, in edit mode.
+    let onMoveStrength: (IndexSet, Int) -> Void
+    let onDeleteFingers: (IndexSet) -> Void
+    let onMoveFingers: (IndexSet, Int) -> Void
 
     var body: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 12) {
-                strengthSection
-                fingerSection
-            }
-            .padding(.horizontal)
-            .padding(.top, 16)
-            .padding(.bottom, 24)
+        // A List (rather than a ScrollView) so each row gets native swipe-to-delete and,
+        // in edit mode, a drag handle for reordering. The cards keep their look via clear
+        // row backgrounds and a hidden scroll background, letting the gradient show through.
+        List {
+            strengthSection
+            fingerSection
         }
+        .listStyle(.plain)
+        .listSectionSpacing(16)
+        .scrollContentBackground(.hidden)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Strength
 
     private var strengthSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionHeader(title: "Strength", systemImage: "dumbbell.fill",
-                          tint: .strengthAccent, isEmpty: entries.isEmpty, onEdit: onEditStrength)
+        Section {
             if entries.isEmpty {
                 emptyPrompt("No strength work logged.")
+                    .dayDetailRow()
             } else {
                 ForEach(entries) { entry in
                     strengthCard(entry)
+                        .dayDetailRow()
                 }
-                strengthFooter
+                .onDelete(perform: onDeleteStrength)
+                .onMove(perform: onMoveStrength)
             }
+        } header: {
+            sectionHeader(title: "Strength", systemImage: "dumbbell.fill",
+                          tint: .strengthAccent, isEmpty: entries.isEmpty, onEdit: onEditStrength)
+        } footer: {
+            if !entries.isEmpty { strengthFooter }
         }
     }
 
@@ -72,17 +85,23 @@ struct DayDetailView: View {
     // MARK: - Finger training
 
     private var fingerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionHeader(title: "Finger Training", systemImage: "figure.climbing",
-                          tint: .fingerAccent, isEmpty: fingerEntries.isEmpty, onEdit: onEditFingers)
+        Section {
             if fingerEntries.isEmpty {
                 emptyPrompt("No finger training logged.")
+                    .dayDetailRow()
             } else {
                 ForEach(fingerEntries) { entry in
                     fingerCard(entry)
+                        .dayDetailRow()
                 }
-                fingerFooter
+                .onDelete(perform: onDeleteFingers)
+                .onMove(perform: onMoveFingers)
             }
+        } header: {
+            sectionHeader(title: "Finger Training", systemImage: "figure.climbing",
+                          tint: .fingerAccent, isEmpty: fingerEntries.isEmpty, onEdit: onEditFingers)
+        } footer: {
+            if !fingerEntries.isEmpty { fingerFooter }
         }
     }
 
@@ -141,6 +160,7 @@ struct DayDetailView: View {
             .buttonBorderShape(.capsule)
             .tint(tint)
         }
+        .textCase(nil)
     }
 
     private func iconBadge(_ systemName: String, tint: Color) -> some View {
@@ -174,7 +194,16 @@ struct DayDetailView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
-            .padding(.bottom, 4)
+    }
+}
+
+private extension View {
+    /// Shared styling for a day-detail card row: a clear row background and no separator so
+    /// the card floats on the screen's gradient, with insets that reproduce the spacing the
+    /// cards had in the old LazyVStack.
+    func dayDetailRow() -> some View {
+        listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
     }
 }

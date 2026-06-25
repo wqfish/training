@@ -1,15 +1,24 @@
 import SwiftUI
 import SwiftData
+import OSLog
+
+/// Surfaces persistence failures in the console instead of letting them vanish.
+private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TrainingLog",
+                            category: "persistence")
 
 /// The main screen: a month calendar on top, the selected day's workout below.
 struct ContentView: View {
     @Query(sort: \WorkoutEntry.position) private var allEntries: [WorkoutEntry]
     @Query(sort: \FingerEntry.position) private var allFingerEntries: [FingerEntry]
 
+    @Environment(\.modelContext) private var context
+
     @State private var selectedDate: Date = Date().startOfDay
     @State private var displayedMonth: Date = Date()
     @State private var isEditingStrength = false
     @State private var isEditingFingers = false
+    /// Drives the day lists' edit mode for drag-to-reorder; toggled by the Reorder button.
+    @State private var editMode: EditMode = .inactive
 
     /// Start-of-day dates with at least one strength entry — the orange calendar dot.
     private var workoutDays: Set<Date> {
@@ -31,6 +40,40 @@ struct ContentView: View {
         allFingerEntries.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
     }
 
+    // MARK: - Reorder & delete
+    //
+    // The day's slices arrive position-sorted, so the row offsets handed back by the List
+    // map straight onto them. `DayOrdering` deletes / reorders and renumbers the survivors,
+    // keeping each day's positions dense.
+
+    private func deleteStrength(at offsets: IndexSet) {
+        DayOrdering.delete(entriesForSelectedDate, at: offsets, from: context)
+        save("delete strength \(offsets.count == 1 ? "entry" : "entries")")
+    }
+
+    private func moveStrength(fromOffsets source: IndexSet, toOffset destination: Int) {
+        DayOrdering.move(entriesForSelectedDate, fromOffsets: source, toOffset: destination)
+        save("reorder strength entries")
+    }
+
+    private func deleteFingers(at offsets: IndexSet) {
+        DayOrdering.delete(fingerEntriesForSelectedDate, at: offsets, from: context)
+        save("delete finger \(offsets.count == 1 ? "entry" : "entries")")
+    }
+
+    private func moveFingers(fromOffsets source: IndexSet, toOffset destination: Int) {
+        DayOrdering.move(fingerEntriesForSelectedDate, fromOffsets: source, toOffset: destination)
+        save("reorder finger entries")
+    }
+
+    private func save(_ action: String) {
+        do {
+            try context.save()
+        } catch {
+            logger.error("Failed to \(action, privacy: .public): \(error.localizedDescription, privacy: .public)")
+        }
+    }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -48,13 +91,30 @@ struct ContentView: View {
                     entries: entriesForSelectedDate,
                     fingerEntries: fingerEntriesForSelectedDate,
                     onEditStrength: { isEditingStrength = true },
-                    onEditFingers: { isEditingFingers = true }
+                    onEditFingers: { isEditingFingers = true },
+                    onDeleteStrength: deleteStrength(at:),
+                    onMoveStrength: moveStrength(fromOffsets:toOffset:),
+                    onDeleteFingers: deleteFingers(at:),
+                    onMoveFingers: moveFingers(fromOffsets:toOffset:)
                 )
+                .environment(\.editMode, $editMode)
             }
             .background(backgroundGradient)
+            // Leaving a day shouldn't strand the lists in edit mode.
+            .onChange(of: selectedDate) { editMode = .inactive }
             .navigationTitle("Training Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    // Distinct from the per-section "Edit" (which opens the value editor):
+                    // this toggles drag-to-reorder for the day's lists.
+                    Button(editMode.isEditing ? "Done" : "Reorder") {
+                        withAnimation { editMode = editMode.isEditing ? .inactive : .active }
+                    }
+                    .disabled(!editMode.isEditing
+                              && entriesForSelectedDate.isEmpty
+                              && fingerEntriesForSelectedDate.isEmpty)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Today") {
                         let today = Date().startOfDay
