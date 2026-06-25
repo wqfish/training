@@ -1,5 +1,10 @@
 import SwiftUI
 import SwiftData
+import OSLog
+
+/// Surfaces persistence failures in the console instead of letting them vanish.
+private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "TrainingLog",
+                            category: "persistence")
 
 /// A mutable, in-memory copy of one exercise entry while editing. Nothing is written
 /// to the store until the user taps Save.
@@ -183,7 +188,11 @@ struct EditDayView: View {
                 usesWeight: draft.usesWeight
             ))
         }
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("Failed to save strength entries: \(error.localizedDescription, privacy: .public)")
+        }
         dismiss()
     }
 }

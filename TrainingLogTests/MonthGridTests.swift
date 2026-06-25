@@ -59,4 +59,19 @@ struct MonthGridTests {
         #expect(monday.weekdaySymbols.count == 7)
         #expect(sunday.weekdaySymbols.first != monday.weekdaySymbols.first)
     }
+
+    @Test func weekdaySymbolsAreUnrotatedForSundayStart() {
+        // `veryShortWeekdaySymbols` is already Sunday-first, so a Sunday start is identity.
+        let cal = gregorian(firstWeekday: 1)
+        let grid = MonthGrid(calendar: cal, month: Date())
+        #expect(grid.weekdaySymbols == cal.veryShortWeekdaySymbols)
+    }
+
+    @Test func weekdaySymbolsRotateByOneForMondayStart() {
+        let cal = gregorian(firstWeekday: 2)
+        let grid = MonthGrid(calendar: cal, month: Date())
+        let base = cal.veryShortWeekdaySymbols
+        // A Monday start moves Sunday to the end: [Mon…Sat, Sun].
+        #expect(grid.weekdaySymbols == Array(base.dropFirst() + base.prefix(1)))
+    }
 }

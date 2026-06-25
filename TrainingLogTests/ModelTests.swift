@@ -27,6 +27,12 @@ struct ModelTests {
         #expect((22.5).lbString == "22.5")
     }
 
+    @Test func negativeWeightsKeepTheirSign() {
+        // Assisted / offloaded hangs are stored as negative weights.
+        #expect((-25.0).lbString == "-25")
+        #expect((-22.5).lbString == "-22.5")
+    }
+
     @Test func startOfDayZeroesTheTimeComponents() {
         let noon = Calendar.current.date(bySettingHour: 13, minute: 37, second: 5, of: Date())!
         let comps = Calendar.current.dateComponents([.hour, .minute, .second], from: noon.startOfDay)

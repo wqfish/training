@@ -21,16 +21,14 @@ struct ContentView: View {
         Set(allFingerEntries.map { $0.date.startOfDay })
     }
 
+    // `allEntries` / `allFingerEntries` already arrive position-sorted from the @Query,
+    // and `filter` preserves that order, so the day's slice needs no further sorting.
     private var entriesForSelectedDate: [WorkoutEntry] {
-        allEntries
-            .filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
-            .sorted { $0.position < $1.position }
+        allEntries.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
     }
 
     private var fingerEntriesForSelectedDate: [FingerEntry] {
-        allFingerEntries
-            .filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
-            .sorted { $0.position < $1.position }
+        allFingerEntries.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
     }
 
     var body: some View {
