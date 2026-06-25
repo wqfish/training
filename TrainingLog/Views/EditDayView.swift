@@ -43,12 +43,8 @@ struct EditDayView: View {
 
                 ForEach($drafts) { $draft in
                     Section {
-                        Stepper("Sets: \(draft.sets)", value: $draft.sets, in: 1...20)
-                        Stepper("Reps: \(draft.reps)", value: $draft.reps, in: 1...100)
-                        Toggle("Uses weight", isOn: $draft.usesWeight)
-                        if draft.usesWeight {
-                            weightRow($draft)
-                        }
+                        countRow($draft)
+                        weightRow($draft)
                     } header: {
                         sectionHeader(for: draft)
                     }
@@ -62,6 +58,7 @@ struct EditDayView: View {
                     }
                 }
             }
+            .listSectionSpacing(.compact)
             .navigationTitle(date.formatted(.dateTime.month().day().weekday(.abbreviated)))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -112,17 +109,50 @@ struct EditDayView: View {
         }
     }
 
+    /// Sets and reps share a single row: two compact steppers split by a divider.
+    private func countRow(_ draft: Binding<DraftEntry>) -> some View {
+        HStack(spacing: 0) {
+            Stepper(value: draft.sets, in: 1...20) {
+                countLabel("Sets", draft.wrappedValue.sets)
+            }
+            Divider()
+                .padding(.horizontal, 6)
+            Stepper(value: draft.reps, in: 1...100) {
+                countLabel("Reps", draft.wrappedValue.reps)
+            }
+        }
+    }
+
+    /// A "Sets 3" / "Reps 5" caption sized to leave the stepper buttons room.
+    /// Scales down rather than truncating when the value reaches two or three digits.
+    private func countLabel(_ title: String, _ value: Int) -> some View {
+        HStack(spacing: 4) {
+            Text(title)
+                .foregroundStyle(.secondary)
+            Text("\(value)")
+                .fontWeight(.medium)
+                .monospacedDigit()
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.7)
+    }
+
+    /// The weight toggle and, when enabled, the editable weight — all on one row.
     private func weightRow(_ draft: Binding<DraftEntry>) -> some View {
-        HStack {
+        HStack(spacing: 8) {
             Text("Weight")
             Spacer()
-            TextField("0", value: draft.weight, format: .number)
-                .keyboardType(.decimalPad)
-                .multilineTextAlignment(.trailing)
-                .focused($focusedWeight, equals: draft.id)
-                .frame(width: 90)
-            Text("lb")
-                .foregroundStyle(.secondary)
+            if draft.wrappedValue.usesWeight {
+                TextField("0", value: draft.weight, format: .number)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .focused($focusedWeight, equals: draft.id)
+                    .frame(width: 70)
+                Text("lb")
+                    .foregroundStyle(.secondary)
+            }
+            Toggle("Uses weight", isOn: draft.usesWeight)
+                .labelsHidden()
         }
     }
 
