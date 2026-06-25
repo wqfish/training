@@ -14,8 +14,12 @@ final class WorkoutEntry {
     var exerciseName: String
     var sets: Int
     var reps: Int
-    /// Weight in pounds.
+    /// Weight in pounds. Ignored when `usesWeight` is false.
     var weight: Double
+    /// Whether this movement uses external weight. False = a bodyweight movement
+    /// (hamstring curl, lock-off, pull-up, …). Defaults to true so existing entries
+    /// migrate cleanly.
+    var usesWeight: Bool = true
     /// Position within the day's list, for stable ordering.
     var position: Int
 
@@ -26,7 +30,8 @@ final class WorkoutEntry {
         sets: Int,
         reps: Int,
         weight: Double,
-        position: Int
+        position: Int,
+        usesWeight: Bool = true
     ) {
         self.id = id
         self.date = date
@@ -35,10 +40,11 @@ final class WorkoutEntry {
         self.reps = reps
         self.weight = weight
         self.position = position
+        self.usesWeight = usesWeight
     }
 
-    /// Total weight moved by this entry: sets × reps × weight.
+    /// Total weight moved by this entry: sets × reps × weight. Zero for bodyweight movements.
     var volume: Double {
-        Double(sets * reps) * weight
+        usesWeight ? Double(sets * reps) * weight : 0
     }
 }

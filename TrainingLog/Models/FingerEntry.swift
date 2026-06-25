@@ -31,8 +31,11 @@ final class FingerEntry {
     var protocolName: String
     /// `GripPosition` raw value — which grip was loaded.
     var grip: String
-    /// Added weight in pounds (negative = assisted / offloaded).
+    /// Added weight in pounds (negative = assisted / offloaded). Ignored when `usesWeight` is false.
     var weight: Double
+    /// Whether this grip used added weight. False = a bodyweight hang. Defaults to true so
+    /// existing entries migrate cleanly.
+    var usesWeight: Bool = true
     /// Position within the day's list, for stable ordering.
     var position: Int
 
@@ -42,7 +45,8 @@ final class FingerEntry {
         protocolName: String,
         grip: String,
         weight: Double,
-        position: Int
+        position: Int,
+        usesWeight: Bool = true
     ) {
         self.id = id
         self.date = date
@@ -50,6 +54,7 @@ final class FingerEntry {
         self.grip = grip
         self.weight = weight
         self.position = position
+        self.usesWeight = usesWeight
     }
 
     /// Typed protocol, or nil if a stored raw value is no longer recognized.

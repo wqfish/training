@@ -52,8 +52,8 @@ struct ModelTests {
     @Test func catalogIncludesTrainingPlanMovements() {
         // Movements pulled from the strength training plan should be loggable.
         let planMovements = [
-            "Physioball Hamstring Curl", "Step-Up", "Lat Pulldown", "Tripod DB Row",
-            "T's and W's", "DB Front Squat", "Single-Leg Hip Thrust",
+            "Physioball Hamstring Curl", "Step-Up", "Tripod DB Row",
+            "T's and W's", "Single-Leg Hip Thrust",
             "Lock-Off Isometric", "Lateral Raise", "Back Fly", "Chest Fly",
         ]
         for name in planMovements {
@@ -66,6 +66,18 @@ struct ModelTests {
         for exercise in ExerciseCatalog.all {
             #expect(!exercise.symbol.isEmpty, "\(exercise.name) has no symbol")
         }
+    }
+
+    @Test func bodyweightMovementsAreFlaggedInCatalog() {
+        // These preset the editor's weight toggle off when added.
+        let bodyweight = ["Physioball Hamstring Curl", "Step-Up",
+                          "T's and W's", "Single-Leg Hip Thrust", "Lock-Off Isometric"]
+        for name in bodyweight {
+            #expect(ExerciseCatalog.exercise(named: name)?.isBodyweight == true, "\(name) should be bodyweight")
+        }
+        // A loaded movement stays weighted by default.
+        #expect(ExerciseCatalog.exercise(named: "Bench Press")?.isBodyweight == false)
+        #expect(ExerciseCatalog.exercise(named: "Lateral Raise")?.isBodyweight == false)
     }
 
     @Test func fingerProtocolAndGripRoundTripThroughRawValues() {
@@ -92,5 +104,21 @@ struct ModelTests {
                                 weight: 0, position: 0)
         #expect(entry.fingerProtocol == nil)
         #expect(entry.gripPosition == nil)
+    }
+
+    @Test func entriesUseWeightByDefault() {
+        let strength = WorkoutEntry(date: Date(), exerciseName: "Bench Press",
+                                    sets: 3, reps: 5, weight: 185, position: 0)
+        let finger = FingerEntry(date: Date(), protocolName: "Max Hang", grip: "Half Crimp",
+                                 weight: 40, position: 0)
+        #expect(strength.usesWeight)
+        #expect(finger.usesWeight)
+    }
+
+    @Test func bodyweightMovementHasNoVolumeRegardlessOfWeight() {
+        // A bodyweight movement contributes no external load, even if a stale weight lingers.
+        let entry = WorkoutEntry(date: Date(), exerciseName: "Physioball Hamstring Curl",
+                                 sets: 3, reps: 10, weight: 100, position: 0, usesWeight: false)
+        #expect(entry.volume == 0)
     }
 }

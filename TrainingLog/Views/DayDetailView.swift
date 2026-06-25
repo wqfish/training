@@ -50,7 +50,7 @@ struct DayDetailView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            weightLabel(entry.weight)
+            weightLabel(usesWeight: entry.usesWeight, weight: entry.weight)
         }
         .card(horizontal: 16, vertical: 10)
     }
@@ -97,7 +97,7 @@ struct DayDetailView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            weightLabel(entry.weight)
+            weightLabel(usesWeight: entry.usesWeight, weight: entry.weight)
         }
         .card(horizontal: 16, vertical: 10)
     }
@@ -145,13 +145,20 @@ struct DayDetailView: View {
             .background(tint.opacity(0.12), in: Circle())
     }
 
-    private func weightLabel(_ weight: Double) -> some View {
-        VStack(alignment: .trailing, spacing: 1) {
-            Text(weight.lbString)
-                .font(.title3.weight(.bold))
-                .foregroundStyle(.primary)
-            Text("lb")
-                .font(.caption)
+    @ViewBuilder
+    private func weightLabel(usesWeight: Bool, weight: Double) -> some View {
+        if usesWeight {
+            VStack(alignment: .trailing, spacing: 1) {
+                Text(weight.lbString)
+                    .font(.title3.weight(.bold))
+                    .foregroundStyle(.primary)
+                Text("lb")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } else {
+            Text("Bodyweight")
+                .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
         }
     }

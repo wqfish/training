@@ -6,31 +6,35 @@ struct Exercise: Identifiable, Hashable {
     let name: String
     /// SF Symbol used to represent the movement in the UI.
     let symbol: String
+    /// Whether this movement is bodyweight by default. Presets the editor's "uses weight"
+    /// toggle to off; usually-loaded movements leave this false.
+    let isBodyweight: Bool
+
+    init(name: String, symbol: String, isBodyweight: Bool = false) {
+        self.name = name
+        self.symbol = symbol
+        self.isBodyweight = isBodyweight
+    }
 }
 
 /// The starter catalog of movements. Add more here as needed.
 enum ExerciseCatalog {
     static let all: [Exercise] = [
-        // Starter catalog
         Exercise(name: "Bench Press",               symbol: "dumbbell.fill"),
         Exercise(name: "Back Squat",                symbol: "figure.strengthtraining.functional"),
         Exercise(name: "Deadlift",                  symbol: "figure.strengthtraining.traditional"),
-        Exercise(name: "Overhead Press",            symbol: "dumbbell.fill"),
         Exercise(name: "Barbell Row",               symbol: "figure.rower"),
         Exercise(name: "Pull-Up",                   symbol: "figure.strengthtraining.functional"),
-        // Strength Workout 1 — lower-body strength + climbing-specific pulling
-        Exercise(name: "Physioball Hamstring Curl", symbol: "figure.strengthtraining.functional"),
-        Exercise(name: "Step-Up",                   symbol: "figure.strengthtraining.functional"),
-        Exercise(name: "Lat Pulldown",              symbol: "figure.strengthtraining.functional"),
+        Exercise(name: "Physioball Hamstring Curl", symbol: "figure.strengthtraining.functional", isBodyweight: true),
+        Exercise(name: "Step-Up",                   symbol: "figure.strengthtraining.functional", isBodyweight: true),
         Exercise(name: "Tripod DB Row",             symbol: "figure.rower"),
-        Exercise(name: "T's and W's",               symbol: "dumbbell.fill"),
-        // Strength Workout 2 — quad/glute strength + shoulder stability and fly work
-        Exercise(name: "DB Front Squat",            symbol: "figure.strengthtraining.functional"),
-        Exercise(name: "Single-Leg Hip Thrust",     symbol: "figure.strengthtraining.traditional"),
-        Exercise(name: "Lock-Off Isometric",        symbol: "figure.strengthtraining.functional"),
+        Exercise(name: "T's and W's",               symbol: "dumbbell.fill", isBodyweight: true),
+        Exercise(name: "Single-Leg Hip Thrust",     symbol: "figure.strengthtraining.traditional", isBodyweight: true),
+        Exercise(name: "Lock-Off Isometric",        symbol: "figure.strengthtraining.functional", isBodyweight: true),
         Exercise(name: "Lateral Raise",             symbol: "dumbbell.fill"),
         Exercise(name: "Back Fly",                  symbol: "dumbbell.fill"),
         Exercise(name: "Chest Fly",                 symbol: "dumbbell.fill"),
+        Exercise(name: "Landmine Press",            symbol: "dumbbell.fill"),
     ]
 
     static func exercise(named name: String) -> Exercise? {

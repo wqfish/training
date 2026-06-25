@@ -9,6 +9,7 @@ private struct DraftEntry: Identifiable {
     var sets: Int
     var reps: Int
     var weight: Double
+    var usesWeight: Bool
 }
 
 /// The edit screen presented as a sheet. The user adds movements from the predefined
@@ -30,7 +31,7 @@ struct EditDayView: View {
         self.existing = existing
         _drafts = State(initialValue: existing
             .sorted { $0.position < $1.position }
-            .map { DraftEntry(exerciseName: $0.exerciseName, sets: $0.sets, reps: $0.reps, weight: $0.weight) })
+            .map { DraftEntry(exerciseName: $0.exerciseName, sets: $0.sets, reps: $0.reps, weight: $0.weight, usesWeight: $0.usesWeight) })
     }
 
     var body: some View {
@@ -44,7 +45,10 @@ struct EditDayView: View {
                     Section {
                         Stepper("Sets: \(draft.sets)", value: $draft.sets, in: 1...20)
                         Stepper("Reps: \(draft.reps)", value: $draft.reps, in: 1...100)
-                        weightRow($draft)
+                        Toggle("Uses weight", isOn: $draft.usesWeight)
+                        if draft.usesWeight {
+                            weightRow($draft)
+                        }
                     } header: {
                         sectionHeader(for: draft)
                     }
@@ -75,7 +79,15 @@ struct EditDayView: View {
             }
             .sheet(isPresented: $showingPicker) {
                 ExercisePickerView { exercise in
-                    drafts.append(DraftEntry(exerciseName: exercise.name, sets: 3, reps: 5, weight: 45))
+                    // Preset the weight toggle from the catalog: bodyweight movements
+                    // start with weight off, loaded movements start at an empty barbell.
+                    drafts.append(DraftEntry(
+                        exerciseName: exercise.name,
+                        sets: 3,
+                        reps: 5,
+                        weight: exercise.isBodyweight ? 0 : 45,
+                        usesWeight: !exercise.isBodyweight
+                    ))
                 }
             }
         }
@@ -136,8 +148,9 @@ struct EditDayView: View {
                 exerciseName: draft.exerciseName,
                 sets: draft.sets,
                 reps: draft.reps,
-                weight: draft.weight,
-                position: index
+                weight: draft.usesWeight ? draft.weight : 0,
+                position: index,
+                usesWeight: draft.usesWeight
             ))
         }
         try? context.save()

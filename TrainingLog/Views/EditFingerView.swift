@@ -7,6 +7,7 @@ private struct FingerDraft: Identifiable {
     let id = UUID()
     var grip: String
     var weight: Double
+    var usesWeight: Bool
 }
 
 /// The finger-training edit sheet. The session is tagged with one protocol; under it the
@@ -31,7 +32,7 @@ struct EditFingerView: View {
         let sorted = existing.sorted { $0.position < $1.position }
         // Default to the existing session's protocol, falling back to Repeaters.
         _selectedProtocol = State(initialValue: sorted.first?.fingerProtocol ?? .repeaters)
-        _drafts = State(initialValue: sorted.map { FingerDraft(grip: $0.grip, weight: $0.weight) })
+        _drafts = State(initialValue: sorted.map { FingerDraft(grip: $0.grip, weight: $0.weight, usesWeight: $0.usesWeight) })
     }
 
     var body: some View {
@@ -53,7 +54,10 @@ struct EditFingerView: View {
 
                 ForEach($drafts) { $draft in
                     Section {
-                        weightRow($draft)
+                        Toggle("Uses weight", isOn: $draft.usesWeight)
+                        if draft.usesWeight {
+                            weightRow($draft)
+                        }
                     } header: {
                         gripHeader(for: draft)
                     }
@@ -84,7 +88,7 @@ struct EditFingerView: View {
             }
             .sheet(isPresented: $showingPicker) {
                 GripPickerView { grip in
-                    drafts.append(FingerDraft(grip: grip.rawValue, weight: 0))
+                    drafts.append(FingerDraft(grip: grip.rawValue, weight: 0, usesWeight: true))
                 }
             }
         }
@@ -144,8 +148,9 @@ struct EditFingerView: View {
                 date: date.startOfDay,
                 protocolName: selectedProtocol.rawValue,
                 grip: draft.grip,
-                weight: draft.weight,
-                position: index
+                weight: draft.usesWeight ? draft.weight : 0,
+                position: index,
+                usesWeight: draft.usesWeight
             ))
         }
         try? context.save()

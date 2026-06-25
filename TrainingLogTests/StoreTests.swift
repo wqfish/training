@@ -102,4 +102,18 @@ struct StoreTests {
         #expect(try context.fetch(FetchDescriptor<WorkoutEntry>()).count == 1)
         #expect(try context.fetch(FetchDescriptor<FingerEntry>()).count == 1)
     }
+
+    @Test func bodyweightFlagRoundTripsThroughTheStore() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+
+        context.insert(WorkoutEntry(date: day, exerciseName: "Lock-Off Isometric",
+                                    sets: 3, reps: 2, weight: 0, position: 0, usesWeight: false))
+        context.insert(FingerEntry(date: day, protocolName: FingerProtocol.maxHang.rawValue,
+                                   grip: GripPosition.halfCrimp.rawValue, weight: 0, position: 0, usesWeight: false))
+        try context.save()
+
+        #expect(try context.fetch(FetchDescriptor<WorkoutEntry>()).first?.usesWeight == false)
+        #expect(try context.fetch(FetchDescriptor<FingerEntry>()).first?.usesWeight == false)
+    }
 }
