@@ -8,17 +8,17 @@ struct DayDetailView: View {
     let fingerEntries: [FingerEntry]
     let onEditStrength: () -> Void
     let onEditFingers: () -> Void
-    /// Swipe-to-delete (and edit-mode delete) for the strength list, by row offset.
+    /// Swipe-to-delete for the strength list, by row offset.
     let onDeleteStrength: (IndexSet) -> Void
-    /// Drag-reorder within the strength list, in edit mode.
+    /// Long-press-drag reorder within the strength list.
     let onMoveStrength: (IndexSet, Int) -> Void
     let onDeleteFingers: (IndexSet) -> Void
     let onMoveFingers: (IndexSet, Int) -> Void
 
     var body: some View {
-        // A List (rather than a ScrollView) so each row gets native swipe-to-delete and,
-        // in edit mode, a drag handle for reordering. The cards keep their look via clear
-        // row backgrounds and a hidden scroll background, letting the gradient show through.
+        // A List (rather than a ScrollView) so each row gets native swipe-to-delete and
+        // long-press-drag reordering. The cards keep their look via clear row backgrounds
+        // and a hidden scroll background, letting the gradient show through.
         List {
             strengthSection
             fingerSection

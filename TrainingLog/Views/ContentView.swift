@@ -17,8 +17,6 @@ struct ContentView: View {
     @State private var displayedMonth: Date = Date()
     @State private var isEditingStrength = false
     @State private var isEditingFingers = false
-    /// Drives the day lists' edit mode for drag-to-reorder; toggled by the Reorder button.
-    @State private var editMode: EditMode = .inactive
 
     /// Start-of-day dates with at least one strength entry — the orange calendar dot.
     private var workoutDays: Set<Date> {
@@ -97,24 +95,11 @@ struct ContentView: View {
                     onDeleteFingers: deleteFingers(at:),
                     onMoveFingers: moveFingers(fromOffsets:toOffset:)
                 )
-                .environment(\.editMode, $editMode)
             }
             .background(backgroundGradient)
-            // Leaving a day shouldn't strand the lists in edit mode.
-            .onChange(of: selectedDate) { editMode = .inactive }
             .navigationTitle("Training Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    // Distinct from the per-section "Edit" (which opens the value editor):
-                    // this toggles drag-to-reorder for the day's lists.
-                    Button(editMode.isEditing ? "Done" : "Reorder") {
-                        withAnimation { editMode = editMode.isEditing ? .inactive : .active }
-                    }
-                    .disabled(!editMode.isEditing
-                              && entriesForSelectedDate.isEmpty
-                              && fingerEntriesForSelectedDate.isEmpty)
-                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Today") {
                         let today = Date().startOfDay
