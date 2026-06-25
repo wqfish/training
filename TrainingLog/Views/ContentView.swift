@@ -42,7 +42,7 @@ struct ContentView: View {
                     workoutDays: workoutDays,
                     fingerDays: fingerDays
                 )
-                .card()
+                .card(padding: 12)
                 .padding(.horizontal)
                 .padding(.top, 8)
 

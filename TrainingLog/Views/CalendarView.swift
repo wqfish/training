@@ -19,7 +19,7 @@ struct CalendarView: View {
     }
 
     var body: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 8) {
             header
             weekdayHeader
             daysGrid
@@ -31,7 +31,7 @@ struct CalendarView: View {
     private var header: some View {
         HStack {
             Text(month.formatted(.dateTime.month(.wide).year()))
-                .font(.title2.weight(.bold))
+                .font(.title3.weight(.bold))
                 .contentTransition(.numericText())
             Spacer()
             Button { changeMonth(by: -1) } label: {
@@ -61,12 +61,12 @@ struct CalendarView: View {
     // MARK: - Grid
 
     private var daysGrid: some View {
-        LazyVGrid(columns: columns, spacing: 6) {
+        LazyVGrid(columns: columns, spacing: 2) {
             ForEach(Array(grid.cells.enumerated()), id: \.offset) { _, date in
                 if let date {
                     dayCell(date)
                 } else {
-                    Color.clear.frame(height: 46)
+                    Color.clear.frame(height: 30)
                 }
             }
         }
@@ -79,11 +79,11 @@ struct CalendarView: View {
         let hasWorkout = workoutDays.contains(date.startOfDay)
         let hasFinger = fingerDays.contains(date.startOfDay)
 
-        return VStack(spacing: 4) {
+        return VStack(spacing: 2) {
             Text("\(day)")
-                .font(.system(size: 17, weight: isSelected ? .bold : .regular, design: .rounded))
+                .font(.system(size: 15, weight: isSelected ? .bold : .regular, design: .rounded))
                 .foregroundStyle(textColor(isSelected: isSelected, isToday: isToday))
-                .frame(width: 36, height: 36)
+                .frame(width: 28, height: 28)
                 .background {
                     if isSelected {
                         Circle().fill(Color.accentColor)
@@ -94,18 +94,18 @@ struct CalendarView: View {
 
             // Up to two dots: orange for strength, teal for finger training. Hidden
             // while the day is selected (the cell is already filled with the accent).
-            HStack(spacing: 3) {
+            HStack(spacing: 2) {
                 if hasWorkout {
-                    Circle().fill(Color.strengthAccent).frame(width: 6, height: 6)
+                    Circle().fill(Color.strengthAccent).frame(width: 5, height: 5)
                 }
                 if hasFinger {
-                    Circle().fill(Color.fingerAccent).frame(width: 6, height: 6)
+                    Circle().fill(Color.fingerAccent).frame(width: 5, height: 5)
                 }
             }
-            .frame(height: 6)
+            .frame(height: 5)
             .opacity(isSelected ? 0 : 1)
         }
-        .frame(maxWidth: .infinity, minHeight: 46)
+        .frame(maxWidth: .infinity, minHeight: 30)
         .contentShape(Rectangle())
         .onTapGesture {
             withAnimation(.snappy(duration: 0.2)) {
