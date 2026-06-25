@@ -36,7 +36,7 @@ struct ModelTests {
     }
 
     @Test func catalogLooksUpKnownExercise() {
-        #expect(ExerciseCatalog.exercise(named: "Bench Press")?.muscleGroup == "Chest")
+        #expect(ExerciseCatalog.exercise(named: "Bench Press")?.symbol == "dumbbell.fill")
     }
 
     @Test func catalogFallsBackToDefaultSymbol() {
@@ -47,5 +47,24 @@ struct ModelTests {
         let ids = ExerciseCatalog.all.map(\.id)
         #expect(Set(ids).count == ids.count)
         #expect(!ids.isEmpty)
+    }
+
+    @Test func catalogIncludesTrainingPlanMovements() {
+        // Movements pulled from the strength training plan should be loggable.
+        let planMovements = [
+            "Physioball Hamstring Curl", "Step-Up", "Lat Pulldown", "Tripod DB Row",
+            "T's and W's", "DB Front Squat", "Single-Leg Hip Thrust",
+            "Lock-Off Isometric", "Lateral Raise", "Back Fly", "Chest Fly",
+        ]
+        for name in planMovements {
+            #expect(ExerciseCatalog.exercise(named: name) != nil, "missing \(name)")
+        }
+    }
+
+    @Test func everyCatalogEntryHasSymbol() {
+        // Guards against a blank icon slipping into the picker.
+        for exercise in ExerciseCatalog.all {
+            #expect(!exercise.symbol.isEmpty, "\(exercise.name) has no symbol")
+        }
     }
 }

@@ -162,14 +162,9 @@ private struct ExercisePickerView: View {
                             .font(.title3)
                             .foregroundStyle(Color.accentColor)
                             .frame(width: 30)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(exercise.name)
-                                .font(.body)
-                                .foregroundStyle(.primary)
-                            Text(exercise.muscleGroup)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
+                        Text(exercise.name)
+                            .font(.body)
+                            .foregroundStyle(.primary)
                         Spacer()
                         Image(systemName: "plus.circle.fill")
                             .foregroundStyle(Color.accentColor)
