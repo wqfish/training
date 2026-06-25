@@ -7,6 +7,6 @@ struct TrainingLogApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: WorkoutEntry.self)
+        .modelContainer(for: [WorkoutEntry.self, FingerEntry.self])
     }
 }

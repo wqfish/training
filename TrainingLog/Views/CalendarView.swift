@@ -6,8 +6,10 @@ struct CalendarView: View {
     @Binding var selectedDate: Date
     /// Any date within the month currently on screen.
     @Binding var month: Date
-    /// Start-of-day dates that have at least one logged entry.
+    /// Start-of-day dates that have at least one logged strength entry.
     let workoutDays: Set<Date>
+    /// Start-of-day dates that have at least one logged finger-training entry.
+    let fingerDays: Set<Date>
 
     private let calendar = Calendar.current
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
@@ -75,6 +77,7 @@ struct CalendarView: View {
         let isSelected = calendar.isDate(date, inSameDayAs: selectedDate)
         let isToday = calendar.isDateInToday(date)
         let hasWorkout = workoutDays.contains(date.startOfDay)
+        let hasFinger = fingerDays.contains(date.startOfDay)
 
         return VStack(spacing: 4) {
             Text("\(day)")
@@ -89,10 +92,18 @@ struct CalendarView: View {
                     }
                 }
 
-            Circle()
-                .fill(hasWorkout ? Color.accentColor : .clear)
-                .frame(width: 6, height: 6)
-                .opacity(isSelected ? 0 : 1)
+            // Up to two dots: orange for strength, teal for finger training. Hidden
+            // while the day is selected (the cell is already filled with the accent).
+            HStack(spacing: 3) {
+                if hasWorkout {
+                    Circle().fill(Color.strengthAccent).frame(width: 6, height: 6)
+                }
+                if hasFinger {
+                    Circle().fill(Color.fingerAccent).frame(width: 6, height: 6)
+                }
+            }
+            .frame(height: 6)
+            .opacity(isSelected ? 0 : 1)
         }
         .frame(maxWidth: .infinity, minHeight: 46)
         .contentShape(Rectangle())

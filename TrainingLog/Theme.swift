@@ -14,6 +14,14 @@ extension Double {
     }
 }
 
+extension Color {
+    /// Dot + accent for strength workouts (the app's orange accent).
+    static var strengthAccent: Color { .accentColor }
+    /// Dot + accent for finger-training days — teal, the complement of the orange
+    /// accent, so the two calendar dots stay easy to tell apart.
+    static var fingerAccent: Color { .teal }
+}
+
 /// A rounded "card" surface used throughout the app for a clean, native look.
 private struct CardBackground: ViewModifier {
     var padding: CGFloat = 16

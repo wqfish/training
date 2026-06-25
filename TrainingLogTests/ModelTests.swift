@@ -67,4 +67,30 @@ struct ModelTests {
             #expect(!exercise.symbol.isEmpty, "\(exercise.name) has no symbol")
         }
     }
+
+    @Test func fingerProtocolAndGripRoundTripThroughRawValues() {
+        // Raw values are what gets persisted, so they must survive a round trip.
+        for proto in FingerProtocol.allCases {
+            #expect(FingerProtocol(rawValue: proto.rawValue) == proto)
+        }
+        for grip in GripPosition.allCases {
+            #expect(GripPosition(rawValue: grip.rawValue) == grip)
+        }
+        #expect(FingerProtocol.allCases.count == 2)
+        #expect(GripPosition.allCases.count == 3)
+    }
+
+    @Test func fingerEntryExposesTypedProtocolAndGrip() {
+        let entry = FingerEntry(date: Date(), protocolName: "Max Hang", grip: "Half Crimp",
+                                weight: 40, position: 0)
+        #expect(entry.fingerProtocol == .maxHang)
+        #expect(entry.gripPosition == .halfCrimp)
+    }
+
+    @Test func fingerEntryWithUnknownRawValuesIsNil() {
+        let entry = FingerEntry(date: Date(), protocolName: "Bogus", grip: "Nope",
+                                weight: 0, position: 0)
+        #expect(entry.fingerProtocol == nil)
+        #expect(entry.gripPosition == nil)
+    }
 }

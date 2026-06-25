@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01E1E4330F7138DB9CA0D8D9 /* EditFingerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61AFAD8048D13348A5338D /* EditFingerView.swift */; };
 		0403EC51E1A2AE4D4C844999 /* MonthGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556761F1F6509848E5EC3C4 /* MonthGridTests.swift */; };
 		1263CD6251EEB6706428581C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED1D80DDB46D50B4C9A47CFF /* Assets.xcassets */; };
 		12A1BF0120449BA9290D5FD5 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B3DB42624806ADFB9F3CC6 /* Exercise.swift */; };
 		1DA859D9DE64402A7282D575 /* MonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */; };
+		2A2D822FFBFDAA43214F42FE /* FingerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05891F505D974B637B9B2825 /* FingerEntry.swift */; };
 		4C254994734E28E0C1A4FC09 /* TrainingLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A62054E02C08DAE6F0583 /* TrainingLogApp.swift */; };
 		76E807CF027B364BCF1F012C /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19261F5854EE78458735178A /* StoreTests.swift */; };
 		79DBC3BFA79EC5B2D93C8E06 /* EditDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9631828831893F3212B577E3 /* EditDayView.swift */; };
@@ -33,10 +35,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05891F505D974B637B9B2825 /* FingerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerEntry.swift; sourceTree = "<group>"; };
 		06DCEF2EDDDF77761A5D7AA9 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		19261F5854EE78458735178A /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		35B3DB42624806ADFB9F3CC6 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		4556761F1F6509848E5EC3C4 /* MonthGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridTests.swift; sourceTree = "<group>"; };
+		6B61AFAD8048D13348A5338D /* EditFingerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFingerView.swift; sourceTree = "<group>"; };
 		70C5A355F66E9E0BB6F51FCB /* TrainingLogTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TrainingLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		713A62054E02C08DAE6F0583 /* TrainingLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLogApp.swift; sourceTree = "<group>"; };
 		9631828831893F3212B577E3 /* EditDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDayView.swift; sourceTree = "<group>"; };
@@ -65,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				35B3DB42624806ADFB9F3CC6 /* Exercise.swift */,
+				05891F505D974B637B9B2825 /* FingerEntry.swift */,
 				CC3FE5E4AFE545081327BF30 /* MonthGrid.swift */,
 				D3BA38B207C95E0A3A548830 /* WorkoutEntry.swift */,
 			);
@@ -78,6 +83,7 @@
 				AD43964E531596AD42B0886A /* ContentView.swift */,
 				D7806FBA6E2DD1F5886E2460 /* DayDetailView.swift */,
 				9631828831893F3212B577E3 /* EditDayView.swift */,
+				6B61AFAD8048D13348A5338D /* EditFingerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -218,7 +224,9 @@
 				CA863886F2647349BF3B9E3F /* ContentView.swift in Sources */,
 				ED6344EF102D0E81658E85F6 /* DayDetailView.swift in Sources */,
 				79DBC3BFA79EC5B2D93C8E06 /* EditDayView.swift in Sources */,
+				01E1E4330F7138DB9CA0D8D9 /* EditFingerView.swift in Sources */,
 				12A1BF0120449BA9290D5FD5 /* Exercise.swift in Sources */,
+				2A2D822FFBFDAA43214F42FE /* FingerEntry.swift in Sources */,
 				1DA859D9DE64402A7282D575 /* MonthGrid.swift in Sources */,
 				A7C1A06A5EDB0883D5F6E36F /* Theme.swift in Sources */,
 				4C254994734E28E0C1A4FC09 /* TrainingLogApp.swift in Sources */,

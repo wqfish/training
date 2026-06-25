@@ -9,7 +9,7 @@ struct StoreTests {
 
     private func makeContext() throws -> ModelContext {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutEntry.self, configurations: config)
+        let container = try ModelContainer(for: WorkoutEntry.self, FingerEntry.self, configurations: config)
         return ModelContext(container)
     }
 
@@ -67,5 +67,39 @@ struct StoreTests {
 
         #expect(todayEntries.count == 1)
         #expect(todayEntries.first?.exerciseName == "Bench Press")
+    }
+
+    @Test func fingerEntriesInsertAndFetchInPositionOrder() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+
+        context.insert(FingerEntry(date: day, protocolName: FingerProtocol.repeaters.rawValue,
+                                   grip: GripPosition.halfCrimp.rawValue, weight: 25, position: 1))
+        context.insert(FingerEntry(date: day, protocolName: FingerProtocol.repeaters.rawValue,
+                                   grip: GripPosition.threeFingerDrag.rawValue, weight: 15, position: 0))
+        try context.save()
+
+        let fetched = try context.fetch(
+            FetchDescriptor<FingerEntry>(sortBy: [SortDescriptor(\.position)])
+        )
+
+        #expect(fetched.count == 2)
+        #expect(fetched.first?.gripPosition == .threeFingerDrag)
+        #expect(fetched.last?.gripPosition == .halfCrimp)
+        #expect(fetched.allSatisfy { $0.fingerProtocol == .repeaters })
+    }
+
+    /// Strength and finger entries on the same day live in independent tables.
+    @Test func strengthAndFingerEntriesAreIndependent() throws {
+        let context = try makeContext()
+        let day = Date().startOfDay
+
+        context.insert(WorkoutEntry(date: day, exerciseName: "Bench Press", sets: 3, reps: 5, weight: 185, position: 0))
+        context.insert(FingerEntry(date: day, protocolName: FingerProtocol.maxHang.rawValue,
+                                   grip: GripPosition.halfCrimp.rawValue, weight: 40, position: 0))
+        try context.save()
+
+        #expect(try context.fetch(FetchDescriptor<WorkoutEntry>()).count == 1)
+        #expect(try context.fetch(FetchDescriptor<FingerEntry>()).count == 1)
     }
 }
