@@ -7,7 +7,7 @@ private struct FingerDraft: Identifiable {
     let id = UUID()
     var grip: String
     var weight: Double
-    var usesWeight: Bool
+    var reps: Int
 }
 
 /// The finger-training edit sheet. The session is tagged with one protocol; under it the
@@ -32,7 +32,7 @@ struct EditFingerView: View {
         let sorted = existing.sorted { $0.position < $1.position }
         // Default to the existing session's protocol, falling back to Repeaters.
         _selectedProtocol = State(initialValue: sorted.first?.fingerProtocol ?? .repeaters)
-        _drafts = State(initialValue: sorted.map { FingerDraft(grip: $0.grip, weight: $0.weight, usesWeight: $0.usesWeight) })
+        _drafts = State(initialValue: sorted.map { FingerDraft(grip: $0.grip, weight: $0.weight, reps: $0.reps) })
     }
 
     var body: some View {
@@ -54,10 +54,11 @@ struct EditFingerView: View {
 
                 ForEach($drafts) { $draft in
                     Section {
-                        Toggle("Uses weight", isOn: $draft.usesWeight)
-                        if draft.usesWeight {
-                            weightRow($draft)
+                        // Max Hang logs a rep count per grip; Repeaters' reps are fixed.
+                        if selectedProtocol == .maxHang {
+                            repsRow($draft)
                         }
+                        weightRow($draft)
                     } header: {
                         gripHeader(for: draft)
                     }
@@ -88,7 +89,7 @@ struct EditFingerView: View {
             }
             .sheet(isPresented: $showingPicker) {
                 GripPickerView { grip in
-                    drafts.append(FingerDraft(grip: grip.rawValue, weight: 0, usesWeight: true))
+                    drafts.append(FingerDraft(grip: grip.rawValue, weight: 0, reps: 5))
                 }
             }
         }
@@ -110,6 +111,18 @@ struct EditFingerView: View {
                     .foregroundStyle(.red)
             }
             .buttonStyle(.borderless)
+        }
+    }
+
+    /// A rep-count stepper, shown only for the Max Hang protocol.
+    private func repsRow(_ draft: Binding<FingerDraft>) -> some View {
+        Stepper(value: draft.reps, in: 1...20) {
+            HStack {
+                Text("Reps")
+                Spacer()
+                Text("\(draft.wrappedValue.reps)")
+                    .monospacedDigit()
+            }
         }
     }
 
@@ -148,9 +161,9 @@ struct EditFingerView: View {
                 date: date.startOfDay,
                 protocolName: selectedProtocol.rawValue,
                 grip: draft.grip,
-                weight: draft.usesWeight ? draft.weight : 0,
-                position: index,
-                usesWeight: draft.usesWeight
+                weight: draft.weight,
+                reps: draft.reps,
+                position: index
             ))
         }
         try? context.save()

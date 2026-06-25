@@ -92,7 +92,7 @@ struct DayDetailView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(entry.grip)
                     .font(.headline)
-                Text(entry.protocolName)
+                Text(fingerSubtitle(for: entry))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -100,6 +100,12 @@ struct DayDetailView: View {
             weightLabel(usesWeight: entry.usesWeight, weight: entry.weight)
         }
         .card(horizontal: 16, vertical: 10)
+    }
+
+    /// Subtitle under a finger entry: the protocol, plus the rep count for Max Hang.
+    private func fingerSubtitle(for entry: FingerEntry) -> String {
+        guard entry.fingerProtocol == .maxHang else { return entry.protocolName }
+        return "\(entry.protocolName) · \(entry.reps) rep\(entry.reps == 1 ? "" : "s")"
     }
 
     private var fingerFooter: some View {

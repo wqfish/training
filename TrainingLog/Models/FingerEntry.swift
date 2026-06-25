@@ -16,11 +16,11 @@ enum GripPosition: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-/// One logged finger-strength grip on a given day, e.g. "Repeaters — Half Crimp @ 25 lb".
+/// One logged finger-strength grip on a given day, e.g. "Max Hang — Half Crimp × 5 @ 25 lb".
 ///
-/// Stored flat and grouped by `date` (start of day), mirroring `WorkoutEntry`. Finger
-/// training follows one of two protocols and we only record the added weight per grip
-/// position — sets and timing are fixed by the protocol, so there's nothing else to log.
+/// Stored flat and grouped by `date` (start of day), mirroring `WorkoutEntry`. A session runs
+/// one of two protocols: Max Hang records a rep count per grip, while Repeaters' reps and
+/// timing are fixed by the protocol, so `reps` is ignored there.
 @Model
 final class FingerEntry {
     var id: UUID
@@ -33,6 +33,10 @@ final class FingerEntry {
     var grip: String
     /// Added weight in pounds (negative = assisted / offloaded). Ignored when `usesWeight` is false.
     var weight: Double
+    /// Number of hangs for this grip. Only meaningful under the Max Hang protocol; Repeaters'
+    /// reps are fixed by the protocol, so this is ignored there. Defaults to 1 so existing
+    /// entries migrate cleanly.
+    var reps: Int = 1
     /// Whether this grip used added weight. False = a bodyweight hang. Defaults to true so
     /// existing entries migrate cleanly.
     var usesWeight: Bool = true
@@ -45,6 +49,7 @@ final class FingerEntry {
         protocolName: String,
         grip: String,
         weight: Double,
+        reps: Int = 1,
         position: Int,
         usesWeight: Bool = true
     ) {
@@ -53,6 +58,7 @@ final class FingerEntry {
         self.protocolName = protocolName
         self.grip = grip
         self.weight = weight
+        self.reps = reps
         self.position = position
         self.usesWeight = usesWeight
     }

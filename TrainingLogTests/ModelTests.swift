@@ -106,6 +106,13 @@ struct ModelTests {
         #expect(entry.gripPosition == nil)
     }
 
+    @Test func fingerEntryDefaultsToOneRep() {
+        // Entries predating the rep count migrate to a single hang.
+        let entry = FingerEntry(date: Date(), protocolName: "Max Hang", grip: "Half Crimp",
+                                weight: 40, position: 0)
+        #expect(entry.reps == 1)
+    }
+
     @Test func entriesUseWeightByDefault() {
         let strength = WorkoutEntry(date: Date(), exerciseName: "Bench Press",
                                     sets: 3, reps: 5, weight: 185, position: 0)
